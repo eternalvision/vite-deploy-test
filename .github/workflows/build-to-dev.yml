@@ -36,9 +36,11 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           git checkout --orphan dev
-          git reset
+          git rm -rf .
 
-          git add -f dist
+          cp -R dist/* .
+
+          git add .
           git commit -m "Build artifacts"
 
           git remote set-url origin https://x-access-token:${PAT}@github.com/${{ github.repository }}
