@@ -35,11 +35,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # создаём ветку dev
-          git checkout -b dev
+          git checkout --orphan dev
+          git reset
+
           git add -f dist
           git commit -m "Build artifacts"
 
-          # ручная настройка remote + push
           git remote set-url origin https://x-access-token:${PAT}@github.com/${{ github.repository }}
           git push -u origin dev --force
