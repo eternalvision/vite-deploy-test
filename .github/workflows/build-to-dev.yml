@@ -24,6 +24,8 @@ jobs:
         run: npm run build
 
       - name: Commit and push to dev
+        env:
+          TOKEN: ${{ secrets.TEST_MY_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -31,4 +33,6 @@ jobs:
           git checkout -b dev
           git add -f dist
           git commit -m "Build artifacts"
-          git push -u https://x-access-token:${{ secrets.TEST_MY_TOKEN }}@github.com/${{ github.repository }} dev --force
+
+          git remote set-url origin https://x-access-token:${TOKEN}@github.com/${{ github.repository }}
+          git push -u origin dev --force
