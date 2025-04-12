@@ -31,4 +31,4 @@ jobs:
           git checkout -b dev
           git add -f dist
           git commit -m "Build artifacts"
-          git push -u origin dev --force
+          git push -u https://x-access-token:${{ secrets.TEST_MY_TOKEN }}@github.com/${{ github.repository }} dev --force
