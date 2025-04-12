@@ -36,7 +36,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           git checkout --orphan dev
-          git rm -rf .
+          git reset
 
           cp -R dist/* .
 
