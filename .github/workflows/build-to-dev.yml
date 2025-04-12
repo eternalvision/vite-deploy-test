@@ -5,12 +5,17 @@ on:
     branches:
       - "master"
 
+permissions:
+  contents: write
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -25,14 +30,16 @@ jobs:
 
       - name: Commit and push to dev
         env:
-          TOKEN: ${{ secrets.TEST_MY_TOKEN }}
+          PAT: ${{ secrets.TEST_MY_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+          # создаём ветку dev
           git checkout -b dev
           git add -f dist
           git commit -m "Build artifacts"
 
-          git remote set-url origin https://x-access-token:${TOKEN}@github.com/${{ github.repository }}
+          # ручная настройка remote + push
+          git remote set-url origin https://x-access-token:${PAT}@github.com/${{ github.repository }}
           git push -u origin dev --force
