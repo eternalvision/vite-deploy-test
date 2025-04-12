@@ -38,9 +38,14 @@ jobs:
           git checkout --orphan dev
           git reset
 
-          cp -R dist/* .
+          shopt -s extglob
+          rm -rf !(dist|.git)
+          shopt -u extglob
 
-          git add .
+          cp -r dist/* .
+          rm -rf dist
+
+          git add -A
           git commit -m "Build artifacts"
 
           git remote set-url origin https://x-access-token:${PAT}@github.com/${{ github.repository }}
